@@ -1,0 +1,97 @@
+Datasets - 4
+
+1. International travel :- International travel covers the number and characteristics of overseas visitors and New Zealand resident travellers (short-term movements) entering or leaving New Zealand.
+2. Tourism Electronic Card Transactions:- The TECTs are used to understand tourism spend activity in New Zealand.
+3. Accommodation Data Programme:- The Accommodation Data Programme (ADP) provides information about short-term accommodation activity such as guest nights and occupancy rates.
+4. International Visitor Survey (Rolling Annual):- The International Visitor Survey (IVS) measures the expenditure, characteristics and behaviours of international visitors to New Zealand.
+
+
+Datasets details:
+
+1. International travel
+
+- obtained from https://infoshare.stats.govt.nz/
+- the least granularity is monthly aggregated and we choose that to capture the maximum interpretation of data
+- datasets with other granularities and irrelevant dimensions/metric are ignored
+- have downloaded the full dataset now for the chosen ones, but might truncate based on time to comply with the other datasets during training
+- Selected datasets:
+    - NZ-resident traveller arrival totals (Monthly)
+    - NZ-resident traveller arrivals by closest overseas port (Monthly)
+    - NZ-resident traveller arrivals by EVERY country of main destination and purpose (Monthly)
+    - NZ-resident traveller arrivals by main destination and NZ area (Monthly)
+    - NZ-resident traveller arrivals by main destination and travel mode (Monthly)
+    - NZ-resident traveller arrivals by main destination, purpose &length of absence (Monthly)
+    - NZ-resident traveller arrivals by main destination, purpose, age and sex (Monthly)
+    - NZ-resident traveller arrivals by purpose and NZ port (Monthly)
+    - NZ-resident traveller departure totals (Monthly)
+    - Permanent & long-term arrivals by country of citizenship and visa type (Monthly)
+    - Permanent & long-term arrivals by country of residence and visa type (Monthly)
+    - Total passenger movements (Monthly)
+    - Total passenger movements by closest overseas port and selected NZ ports (Monthly)
+    - Total passenger movements by country of residence, age and sex (Monthly)
+    - Total passenger movements by EVERY country of residence (Monthly)
+    - Total passenger movements by NZ port and selected closest overseas ports (Monthly)
+    - Total passenger movements by travel mode (Monthly)
+    - Visitor arrival totals (Monthly)
+    - Visitor arrivals by country of citizenship and visa type (Monthly)
+    - Visitor arrivals by country of residence and closest overseas port (Monthly)
+    - Visitor arrivals by country of residence and travel mode (Monthly)
+    - Visitor arrivals by country of residence, age and visa type (Monthly)
+    - Visitor arrivals by country of residence, purpose and length of stay (Monthly)
+    - Visitor arrivals by country of residence, purpose and NZ port (Monthly)
+    - Visitor arrivals by country of residence, purpose, age and sex (Monthly)
+    - Visitor arrivals by EVERY country of residence and purpose (Monthly)
+    - Visitor departure totals (Monthly)
+- may reduce to NZ-resident traveller arrival totals (Monthly), NZ-resident traveller departure totals (Monthly), Total passenger movements (Monthly), Visitor arrival totals (Monthly), Visitor departure totals (Monthly) depending on the model selection
+- most datsets had/have 2 columns "Seasonally Adjusted" and "Trend" for which data is mostly empty and irrelevent to our use case, so we can remove them
+
+
+2. Tourism Electronic Card Transactions
+
+- obtained from https://teic.mbie.govt.nz/teiccategories/datareleases/tects
+- there are 3 data sets aggrgated by region, RTO(Regional Tourism Organisation) and TA(Territorial Authority)
+- all of them dates from 2018 to 2025 June (aggregated monthly)
+- had to convert them from excel sheets/workbooks to csv files
+- TA series data split into 2 (TA-series - 2018 - 2019 & TA-series - 2020 - 2025); combined these 2 for uniformity with others
+
+
+3. Accommodation Data Programme
+
+- obtained from https://teic.mbie.govt.nz/teiccategories/datareleases/adp
+- single file containing monthly aggrgated data from 2020 to 2025 June
+- secondary aggrgations by Area type, Area, Property and measure
+- there are 19 measures and these are contant across other aggregations, so we have pivoted them to be the columns
+- might be pivoting other aggregations too, except time, if required in training
+
+
+4. International Visitor Survey (Rolling Annual)
+
+- obtained from https://www.mbie.govt.nz/immigration-and-tourism/tourism-research-and-data/tourism-data-releases/international-visitor-survey-ivs/international-visitor-survey-data-download
+- IVS contains 23 tables pertaining to surveys in particular areas of ineterests
+- removed tables (13):
+    - branding - not a key driver
+    - decision_making_process - subjective answer(non quantifiable)
+    - environment - not a key driver
+    - expenditure_by_payment_type - not a key driver
+    - impact_of_covid19 - one off exception and does not relate to forecasting
+    - ease_of_organisation reasons - subjective answer(non quantifiable); Data available for 2024Q2 only
+    - maori_cultural_experience - not a key driver
+    - maori_cultural_sentiment - not a key driver
+    - mobility - not a key driver
+    - other_countries_visited - not a key driver
+    - secondary_purpose_of_visit - not a key driver
+    - self_transport - can be derived from transport_methods tables
+    - visitor_satisfaction reasons - subjective answer(non quantifiable); Data available for 2024Q2 only
+- selected tables (10):
+    - accommodation.csv
+    - activities.csv
+    - ease_of_organisation.csv
+    - expenditure_by_product.csv
+    - itinerary.csv
+    - poor_experiences.csv
+    - survey_main_header.csv
+    - transport_methods.csv
+    - travel_party.csv
+    - visitor_satisfaction.csv
+- most of the tables can be joined to survey_main_header based on the column "response_id" which we can then corelate with other metrics
+

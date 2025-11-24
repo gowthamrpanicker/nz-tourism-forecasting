@@ -1,0 +1,31 @@
+1. Frequency mismatch between datasets
+    IVS data is collected and reported quarterly, while International Travel arrivals are monthly.
+    To merge them consistently for VAR modeling, I aggregated the arrivals data into quarterly sums before combining.
+2. Parsing specialized date formats
+    The arrivals dataset used a StatNZ-style code like 2020M01 for months.
+    Custom parser to correctly interpret these strings as timestamps, enabling proper indexing and merging.
+3. Path management and parameter tuning
+    Many scripts needed manual adjustments to file paths, variable names, horizons, and parameters to run in my local environment and match the data structure.
+    This ensured the models were not just generic templates but tailored to my project.
+4. Comparing AIC for model selection
+    Used the Akaike Information Criterion (AIC) to compare multiple candidate models (e.g., SARIMAX vs UCM, with and without exogenous regressors).
+    Understood that AIC is a relative metric where lower values indicate a better trade-off between fit and complexity.
+5. Handling deprecated methods and API changes
+    Some reference scripts used outdated/deprecated methods (e.g., "M" vs "ME" frequency codes, fillna(method=…) vs .ffill()/.bfill()).
+    Updated the code to comply with the latest pandas and statsmodels APIs, making it more robust and forward-compatible.
+6. Recognizing and fixing data leakage issues
+    Ensured that exogenous variables (like ADP guest nights) were lagged by 1 month so that the models did not “cheat” by using future information.
+7. Applying transformations thoughtfully
+    Applied log1p transforms to stabilize variance and safely handle zeros, and rolling 12-month sums to align ADP guest nights with annual spend.
+    This reflects an understanding of both statistical modeling and the tourism context.
+8. Building fallback logic for robustness
+    In VAR models, implemented lag search with fallbacks (e.g., defaulting to p=1 if higher lags fail due to sample size).
+    Also added handling for cases where covariance matrices are not positive definite, to keep the pipeline stable.
+9. Extending scripts with explanatory visualizations
+    Beyond just fitting models, I refined the plots to connect last observations with forecasts, mark the forecast start, and display confidence intervals — making results easier to interpret and present.
+10. Exploring multiple modeling approaches
+    tested different families of models — SARIMAX, UCM, and VAR — and learned their strengths:
+        SARIMAX: flexible ARIMA with exog.
+        UCM: interpretable trend/seasonal components.
+        VAR: captures interdependence between multiple series.
+    justified model choice (e.g., UCM over SARIMAX) using AIC and domain reasoning.

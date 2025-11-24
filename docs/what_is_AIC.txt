@@ -1,0 +1,40 @@
+
+What is AIC?
+    AIC = −2 × (log-likelihood) + 2 × (number of parameters)
+    It’s an information-theoretic score that balances:
+        Goodness of fit (how well the model explains the data, via likelihood)
+        Complexity penalty (how many parameters it uses)
+So, it rewards models that fit better but penalizes models that are too complex (to avoid overfitting).
+
+Why is AIC significant in time series (e.g., SARIMAX, VAR)?
+    When you test multiple lag orders, seasonal terms, or exogenous factors, you’ll often get several “valid” models.
+    AIC gives a consistent rule: the lower the AIC, the more efficient the model is at capturing structure without wasting parameters.
+    In VAR, for example, AIC helps decide how many lags are needed:
+        Few lags → risk underfitting.
+        Many lags → risk overfitting.
+        AIC picks the “sweet spot.”
+
+How to interpret AIC values
+    Relative, not absolute
+        AIC has no absolute scale (−200, +50, etc. means nothing by itself).
+        What matters: comparing models fit to the same dataset.
+    Lower is better
+        Model with the lowest AIC among candidates is usually preferred.
+        A difference of 2–4 suggests mild support for the lower-AIC model.
+        A difference of >10 means very strong support.
+    Not a guarantee of “truth”
+        AIC doesn’t say “this model is correct,” only that it’s the most efficient among the ones compared.
+        It assumes the true data-generating process is not in your candidate set, but you want the closest approximation.
+
+In our case
+    When you print AIC for VAR with different lags:
+        If lag=2 gives AIC=100, and lag=3 gives AIC=95 → lag=3 is better.
+        If lag=3 gives AIC=95, lag=4 gives AIC=94.5 → not much gain, you may still pick lag=3 for parsimony.
+    For SARIMAX/UCM comparisons (e.g., with vs without exog):
+        If exog model has much lower AIC, it means the exogenous factor explains significant structure.
+        If difference is small (say <2), then exog might not add much.
+
+In summary:
+    AIC helps you choose the best model among competing ones.
+    Always pick the lowest AIC, but also check how big the difference is.
+    It’s about balance: good fit without unnecessary complexity.
