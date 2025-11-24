@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import numpy as np
 
-input_path = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/datasets/csv datasets/ADP_All_Measures_.csv"
-output_path = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/datasets/csv datasets/ADP_All_Measures.csv"
+input_path = "datasets/csv datasets/ADP_All_Measures_.csv"
+output_path = "datasets/csv datasets/ADP_All_Measures.csv"
 
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 

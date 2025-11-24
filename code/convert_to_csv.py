@@ -3,8 +3,8 @@ import glob
 import os
 
 # i/p & o/p paths
-input_folder = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/dataset/csv datasets/TECT"
-output_folder = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/dataset/csv datasets/TECT"
+input_folder = "dataset/csv datasets/TECT"
+output_folder = "dataset/csv datasets/TECT"
 
 
 os.makedirs(output_folder, exist_ok=True)

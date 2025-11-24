@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-input_path = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/datasets/csv datasets/international-visitor-survey-data-quarter-1-2025/survey_main_header.csv"
-output_path = "C:/Users/AlbinXavier/personal/gowtham/nz-tourism/datasets/cleaned_and_processed/international-visitor-survey-data-quarter-1-2025/survey_main_header_cleaned.csv"
+input_path = "datasets/csv datasets/international-visitor-survey-data-quarter-1-2025/survey_main_header.csv"
+output_path = "datasets/cleaned_and_processed/international-visitor-survey-data-quarter-1-2025/survey_main_header_cleaned.csv"
 
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
