@@ -1,0 +1,20 @@
+
+1. IVS Spend — ARIMA(0,1,0) with drift
+    AIC: 165.4 (within ARIMA class; simple model, low complexity).
+    Forecast accuracy: RMSE ≈ 66, MAPE ≈ 1.3%, Theil’s U = nan (hold-out too short to compute reliably).
+    Very strong out-of-sample accuracy on a small test set.
+    But the model is simplistic (just a drift), so may underfit if richer drivers matter.
+2. IVS Spend — SARIMAX (with exog arrivals)
+    AIC: 694.6 (higher, even worse than no-exog SARIMAX baseline).
+    Forecast accuracy: RMSE ≈ 688, MAPE ≈ 13.9%, Theil’s U = nan.
+    Poor accuracy compared to ARIMA; adding arrivals as exog doesn’t help here.
+3. IVS Spend — VAR (IVS + arrivals)
+    AIC: ≈ best lag 5 with AIC ≈ mid-range (not directly comparable with ARIMA/SARIMAX).
+    Forecast accuracy: RMSE ≈ 327, MAPE ≈ 6.7%, Theil’s U ≈ 2.82 (> 1, worse than naïve random walk).
+    Captures some joint dynamics but underperforms ARIMA.
+
+Verdict (IVS Spend): ARIMA(0,1,0) with drift is best.
+    Lowest forecast errors by far (MAPE 1.3% vs 6.7% VAR and 13.9% SARIMAX).
+    Even though it’s a very simple model, with the short quarterly sample it dominates more complex models.
+    SARIMAX overfits and VAR cannot beat naïve in this window (Theil’s U > 1).
+    With more historical quarters, VAR or SARIMAX may eventually add value, but for now ARIMA drift is the most reliable choice.

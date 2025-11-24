@@ -1,0 +1,62 @@
+
+High-level, step-by-step of what the VAR ADP script does
+1. Load & tidy inputs
+    Reads the ADP CSV file.
+    Normalizes dates to month-end.
+If “Total guest nights” is missing, constructs it = Domestic + International.
+    Aggregates to national monthly totals and builds a continuous month-end index.
+    Forward/backward fills gaps and clips invalid values (negative counts, occupancy rates outside (0,1)).
+2. Transform to stable scale
+    Apply log1p to guest-night counts to handle zeros and compress large values.
+    Apply logit to occupancy rate to map (0,1) → ℝ.
+    Standardize (z-score) each transformed series.
+    Save means/SDs for later inversion.
+3. Seasonal differencing
+    Apply 12-month difference (y_t − y_{t−12}) to remove strong yearly seasonality.
+    Drop early NAs; keep a clean stationary dataset for VAR.
+4. Select lag order & fit robust VAR
+    Use select_order(max_lags=6) with AIC to pick the lag length.
+    Fit VAR with a constant ("c"), and if it fails, retry with no constant ("nc").
+    Verify fit by running a one-step forecast to check covariance matrix stability.
+5. Forecast in differenced space & re-integrate
+    Forecast 12 months ahead in the differenced standardized space.
+    Rebuild the levels with seasonal undifferencing: x_t = x_{t-12} + diff12_t.
+    Invert z-scores, expm1, and inv_logit to return to natural units (guest nights, occupancy rates).
+6. Diagnostics
+    Print VAR regression results if possible.
+    If the covariance matrix isn’t positive definite, print a compact fallback coefficient table.
+    Compute AIC/BIC/HQIC safely, falling back to approximate slogdet if needed.
+7. Visualize results
+    Plot historical observed values for all three series:
+        Total guest nights
+        International guest nights
+        Occupancy rate
+    Plot dashed forecast paths for each series.
+    Mark the forecast start with a vertical line.
+
+
+Why these choices help
+1. Log1p + Logit transforms
+    Problem: Guest nights are highly skewed; occupancy rates are bounded (0–1).
+    What we do: Apply log1p to counts, logit to rates.
+    Benefit: Stabilizes variance, unbounds rates for linear VAR modeling, and avoids invalid values.
+2. Z-scoring
+    Problem: Variables have very different scales (millions vs fractions).
+    What we do: Standardize all series.
+    Benefit: Improves numerical stability of the VAR estimation; coefficients become comparable.
+3. Seasonal differencing (12 months)
+    Problem: Strong annual cycles make data non-stationary.
+    What we do: Remove yearly seasonality with 12-month differences.
+    Benefit: Satisfies stationarity assumptions of VAR while retaining meaningful dynamics.
+4. Lag order selection
+    Problem: Arbitrary lag choice risks underfitting or overfitting.
+    What we do: Use AIC to pick the best lag automatically (with a fallback).
+    Benefit: Balances fit and parsimony for better forecasting.
+5. Trend fallback (c → nc)
+    Problem: Some specifications fail if the covariance is ill-conditioned.
+    What we do: Retry fitting without a constant trend.
+    Benefit: Ensures the model produces a usable forecast instead of crashing.
+6. Safe info criteria
+    Problem: Non–positive-definite covariances can break AIC/BIC computation.
+    What we do: Compute approximate ICs with a tiny ridge if needed.
+    Benefit: Always gives you a diagnostic, even on unstable fits.

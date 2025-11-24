@@ -1,0 +1,17 @@
+1. In-sample fit (how well the model explains history) - AIC
+
+2. Out-of-sample forecast accuracy (validation)
+    RMSE (Root Mean Squared Error)
+        Penalizes large errors heavily (squares them).
+        Units are same as the series (Annual Spend, millions NZD).
+        Lower = better.
+    MAE (Mean Absolute Error)
+        Average of absolute differences.
+        Easier to interpret than RMSE, less sensitive to extreme errors.
+    MAPE% (Mean Absolute Percentage Error)
+        Scale-free: error relative to actuals, shown as %.
+    sMAPE% (Symmetric Mean Absolute Percentage Error)
+        Similar to MAPE, but penalizes under- and over-forecasting more symmetrically.
+        Useful if values can be small.
+
+3. Forecast uncertainty - shaded areas in graph with confidence levels

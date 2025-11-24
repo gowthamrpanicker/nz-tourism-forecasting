@@ -1,0 +1,52 @@
+Total guest nights
+VAR (lags=1, seasonal-diffed logs)
+• AIC (train model): −8.69 (selected; full-fit AIC −9.35 — AIC only comparable across VAR specs).
+• Forecast accuracy: RMSE ≈ 1.19M, MAE ≈ 0.88M, MAPE ≈ 6.42%, sMAPE ≈ 6.30%.
+
+Random Forest (per-series; own lags + month + trend)
+• AIC: n/a.
+• Forecast accuracy: RMSE ≈ 1.92M, MAE ≈ 1.60M, MAPE ≈ 12.08%, sMAPE ≈ 12.03%.
+
+ARIMA(1,1,1) (per-series; no seasonality)
+• AIC (train model): 111.95.
+• Forecast accuracy: RMSE ≈ 5.91M, MAE ≈ 4.83M, MAPE ≈ 32.80%, sMAPE ≈ 41.63%.
+
+Verdict (Total): VAR is best.
+• vs Forest: RMSE ↓ ~38%; vs ARIMA: RMSE ↓ ~80%.
+• Takeaway: light VAR with seasonal differencing captures common dynamics across series.
+
+International guest nights
+VAR (lags=1, seasonal-diffed logs)
+• AIC (train model): −8.69 (same run; AIC only meaningful within VAR family).
+• Forecast accuracy: RMSE ≈ 0.55M, MAE ≈ 0.44M, MAPE ≈ 8.65%, sMAPE ≈ 9.17%.
+
+Random Forest (per-series)
+• AIC: n/a.
+• Forecast accuracy: RMSE ≈ 1.01M, MAE ≈ 0.82M, MAPE ≈ 20.46%, sMAPE ≈ 19.36%.
+
+ARIMA(1,1,1)
+• AIC (train model): −1.99.
+• Forecast accuracy: RMSE ≈ 3.12M, MAE ≈ 2.65M, MAPE ≈ 52.30%, sMAPE ≈ 74.80%.
+
+Verdict (International): VAR wins by a large margin.
+• vs Forest: RMSE ↓ ~45%; vs ARIMA: RMSE ↓ ~82%.
+• Takeaway: cross-series coupling matters a lot for International.
+
+Domestic guest nights
+VAR (lags=1, seasonal-diffed logs)
+• AIC (train model): −8.69 (full-fit AIC −9.35).
+• Forecast accuracy: RMSE ≈ 1.17M, MAE ≈ 0.67M, MAPE ≈ 7.74%, sMAPE ≈ 7.18%.
+
+Random Forest (per-series)
+• AIC: n/a.
+• Forecast accuracy: RMSE ≈ 1.33M, MAE ≈ 1.06M, MAPE ≈ 11.95%, sMAPE ≈ 11.88%.
+
+ARIMA(1,1,1)
+• AIC (train model): 138.02.
+• Forecast accuracy: RMSE ≈ 3.11M, MAE ≈ 2.48M, MAPE ≈ 26.05%, sMAPE ≈ 31.57%.
+
+Verdict (Domestic): VAR is best.
+• vs Forest: RMSE ↓ ~12%; vs ARIMA: RMSE ↓ ~62%.
+• Takeaway: even with modest lags, VAR generalizes better than per-series models here.
+
+Final verdict: For all three VAR is best

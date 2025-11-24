@@ -1,0 +1,46 @@
+International Spend
+SARIMA (no exog)
+• AIC: 692.90 (AIC is only comparable within SARIMA specs).
+• Forecast accuracy: RMSE ≈ 66.0, MAPE ≈ 1.49%, sMAPE ≈ 1.47%.
+
+ARIMA (Intl)
+• AIC: 966.76.
+• Forecast accuracy: RMSE ≈ 62.4, MAPE ≈ 1.47%, sMAPE ≈ 1.47%.
+
+UCM (Intl, no exog; local level + seasonal 12)
+• AIC: −70.36 (only meaningful vs other UCMs).
+• Forecast accuracy: RMSE ≈ 174.0, MAPE ≈ 3.57%, sMAPE ≈ 3.67%.
+
+Random Forest (Intl; univariate lags + month + trend)
+• AIC: n/a.
+• Forecast accuracy: RMSE ≈ 245.7, MAPE ≈ 5.23%, sMAPE ≈ 5.44%.
+
+Verdict (International): ARIMA edges out SARIMA (no exog).
+• vs SARIMA (no exog): ~5–6% lower RMSE; MAPE and sMAPE are essentially tied.
+• vs UCM: ~64% lower RMSE.
+• vs Forest (univariate): ~75% lower RMSE.
+Takeaway: Among univariate models, ARIMA is the most accurate for International spend.
+
+
+Domestic Spend
+SARIMA (no exog)
+• AIC: 848.76.
+• Forecast accuracy: RMSE ≈ 1,028.6, MAPE ≈ 8.18%, sMAPE ≈ 7.78%.
+
+ARIMA (Domestic)
+• AIC: 1154.17.
+• Forecast accuracy: RMSE ≈ 199.6, MAPE ≈ 1.66%, sMAPE ≈ 1.65%.
+
+UCM (Domestic, no exog; local level + seasonal 12)
+• AIC: −114.92.
+• Forecast accuracy: RMSE ≈ 373.4, MAPE ≈ 2.77%, sMAPE ≈ 2.78%.
+
+Random Forest (Domestic; univariate lags + month + trend)
+• AIC: n/a.
+• Forecast accuracy: RMSE ≈ 383.6, MAPE ≈ 3.23%, sMAPE ≈ 3.17%.
+
+Verdict (Domestic): ARIMA is best by a wide margin.
+• vs UCM: ~47% lower RMSE, ~40% lower MAPE.
+• vs Forest (univariate): ~48% lower RMSE and MAPE.
+• vs SARIMA (no exog): ~81% lower RMSE.
+Takeaway: ARIMA captures Domestic spend dynamics much better than the other univariate approaches.

@@ -1,0 +1,4 @@
+- For TECT the data itself is clean. Merged TA series data. there were 2 datasets one for 2018-1019 and 2020-2025
+- pivoted 19 measure values in ADP_All_Measures to columns
+- For survey_main_header dropped unwanted/non-usable columns: "no_days_in_nz_unknown", "no_selection_itinerary", "package_deal", "pkg_included_airfare", "country_package_started", "trip_start_country", "incl_stay_other_country", "no_nights_other_country", "single_or_others currency", "other_purchase" and also converted NA in no_people_over_15", "no_people_under_15" columns to 1
+- Joined survey_main_header with visitor_satisfaction
